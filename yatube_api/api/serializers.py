@@ -3,7 +3,6 @@ import base64
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField
 
 from posts.models import Comment, Follow, Group, Post
 
@@ -21,7 +20,9 @@ class Base64ImageField(serializers.ImageField):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(slug_field='username', read_only=True)
+    author = serializers.SlugRelatedField(
+        read_only=True, slug_field='username'
+    )
     image = Base64ImageField(required=False, allow_null=True)
 
     class Meta:
